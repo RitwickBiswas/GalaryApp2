@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         File[] pictures = file.listFiles();
         for(int i = 0; i < pictures.length; i++){
             Log.d("FILE:", ""+pictures[i].getName());
+            Log.d("FILE:", ""+pictures[i].getAbsolutePath());
         }
     }
 
