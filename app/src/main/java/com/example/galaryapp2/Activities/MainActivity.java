@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.galaryapp2.Adapter.GalleryImageAdapter;
 import com.example.galaryapp2.Interface.RecyclerViewClickListner;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     RecyclerView recyclerViewMain;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Cell> allFilesPath;
+    String child;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +36,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 //        layoutManager = new GridLayoutManager(this,2);
 //        recyclerViewMain.setHasFixedSize(true);
 //        recyclerViewMain.setLayoutManager(layoutManager);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1000 );
-
-        }
-        else{
-            showImages();
-            getDirList();
-        }
+        Intent intent = getIntent();
+        child = intent.getStringExtra("SubFolderPath");
+        showImages(child);
     }
 
     private void getDirList() {
@@ -53,8 +51,25 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         }
     }
 
-    private void showImages() {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Pictures/Walli Artworks/";
+    private void showImages(String subPath) {
+//        if((Environment.getDataDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath).toLowerCase().endsWith(".jpg")) || Environment.getDataDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath).toLowerCase().endsWith(".png")){
+//            String path = Environment.getExternalStorageDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath);
+//            Log.d("Something", "showImages: "+path);
+//            allFilesPath = new ArrayList<>();
+//            allFilesPath = listAllFiles(path);
+//            RecyclerView recyclerView = findViewById(R.id.recycler_view_main);
+//            recyclerView.setHasFixedSize(true);
+//            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
+//            recyclerView.setLayoutManager(layoutManager);
+//            ArrayList<Cell> cells = prepareData();
+//            GalleryImageAdapter adapter = new GalleryImageAdapter(getApplicationContext(),cells);
+//            recyclerView.setAdapter(adapter);
+//        }
+//        else{
+//            Toast.makeText(this,"Wrong",Toast.LENGTH_SHORT);
+//        }
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath);
+        Log.d("Something", "showImages: "+path);
         allFilesPath = new ArrayList<>();
         allFilesPath = listAllFiles(path);
         RecyclerView recyclerView = findViewById(R.id.recycler_view_main);
@@ -64,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         ArrayList<Cell> cells = prepareData();
         GalleryImageAdapter adapter = new GalleryImageAdapter(getApplicationContext(),cells);
         recyclerView.setAdapter(adapter);
+
     }
 
     private ArrayList<Cell> prepareData(){
