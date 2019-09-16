@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     private void showImages(String subPath) {
+
 //        if((Environment.getDataDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath).toLowerCase().endsWith(".jpg")) || Environment.getDataDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath).toLowerCase().endsWith(".png")){
 //            String path = Environment.getExternalStorageDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath);
 //            Log.d("Something", "showImages: "+path);
@@ -68,17 +69,23 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
 //        else{
 //            Toast.makeText(this,"Wrong",Toast.LENGTH_SHORT);
 //        }
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath);
-        Log.d("Something", "showImages: "+path);
-        allFilesPath = new ArrayList<>();
-        allFilesPath = listAllFiles(path);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_main);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
-        recyclerView.setLayoutManager(layoutManager);
-        ArrayList<Cell> cells = prepareData();
-        GalleryImageAdapter adapter = new GalleryImageAdapter(getApplicationContext(),cells);
-        recyclerView.setAdapter(adapter);
+        if(Environment.getDataDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath).isEmpty())
+        {
+            Toast.makeText(this,"Empty",Toast.LENGTH_SHORT);
+        }
+        else{
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath().concat("/DCIM/").concat(subPath);
+            Log.d("Something", "showImages: "+path);
+            allFilesPath = new ArrayList<>();
+            allFilesPath = listAllFiles(path);
+            RecyclerView recyclerView = findViewById(R.id.recycler_view_main);
+            recyclerView.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),3);
+            recyclerView.setLayoutManager(layoutManager);
+            ArrayList<Cell> cells = prepareData();
+            GalleryImageAdapter adapter = new GalleryImageAdapter(getApplicationContext(),cells);
+            recyclerView.setAdapter(adapter);
+        }
 
     }
 
