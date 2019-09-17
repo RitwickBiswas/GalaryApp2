@@ -11,6 +11,9 @@ import com.example.galaryapp2.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class GetSingleImage {
 
@@ -47,8 +50,10 @@ public class GetSingleImage {
         File file = new File(pathName);
         File[] files = file.listFiles();
         Log.d("Files", "listAllFiles: "+files);
+        List<File> fileList =  Arrays.asList(files);
+        Collections.reverse(fileList);
         if(files!=null){
-            for(File f: files){
+            for(File f: fileList){
                 Cell cell = new Cell();
                 cell.setTitle(f.getName());
                 cell.setPath(f.getAbsolutePath());

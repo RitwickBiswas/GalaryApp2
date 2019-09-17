@@ -44,7 +44,7 @@ public class ImageActivity extends AppCompatActivity {
         File file = new File(Environment.getExternalStorageDirectory(), "DCIM");
         Log.d("Files", "getDirList: "+file.listFiles());
         File[] pictures = file.listFiles();
-        for(int i = 0; i < pictures.length ; i++){
+        for(int i = 0; i < pictures.length  ; i++){
 //            Log.d("FILE:", ""+pictures[i].getName());
             Log.d("FILE:", ""+pictures[i].getAbsolutePath());
             allFolderPath.add(pictures[i].getAbsolutePath());

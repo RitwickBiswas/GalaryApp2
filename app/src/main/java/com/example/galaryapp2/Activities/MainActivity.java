@@ -20,7 +20,11 @@ import com.example.galaryapp2.Model.Cell;
 import com.example.galaryapp2.R;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewClickListner {
 
@@ -104,8 +108,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         ArrayList<Cell> allFiles = new ArrayList<>();
         File file = new File(pathName);
         File[] files = file.listFiles();
+        List<File> fileList =  Arrays.asList(files);
+        Collections.reverse(fileList);
         if(files!=null){
-            for(File f: files){
+            for(File f: fileList){
                 Cell cell = new Cell();
                 cell.setTitle(f.getName());
                 cell.setPath(f.getAbsolutePath());

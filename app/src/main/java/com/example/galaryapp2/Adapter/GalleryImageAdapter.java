@@ -2,7 +2,10 @@ package com.example.galaryapp2.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.galaryapp2.Activities.FullScreenActivity;
+import com.example.galaryapp2.Activities.VideoActivity;
 import com.example.galaryapp2.Model.Cell;
 import com.example.galaryapp2.R;
 
@@ -42,16 +46,46 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
 
         ImageView imageView = holder.img;
         Glide.with(context).load(gallaryList.get(position).getPath()).into(imageView);
-        holder.img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, FullScreenActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("fullGalary" , gallaryList);
-                intent.putExtra("position",position);
-                context.startActivity(intent);
-            }
-        });
+        if(gallaryList.get(position).getPath().endsWith(".mp4")){
+            holder.img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent launchVLC = new Intent();
+//                    launchVLC.addFlags(Integer.parseInt(Intent.CATEGORY_LAUNCHER));
+                    launchVLC.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    launchVLC.setAction(Intent.ACTION_VIEW);
+//                    launchVLC.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+//                    launchVLC.setType("video/mp4");
+                    launchVLC.setDataAndType(Uri.parse(gallaryList.get(position).getPath()),"video/*");
+                    if (launchVLC.resolveActivity(context.getPackageManager()) != null) {
+                        Log.d("Video", "VIDEOCLOCK: "+launchVLC.setDataAndType(Uri.parse(gallaryList.get(position).getPath()),"video/mp4"));
+                        context.startActivity(launchVLC);
+                    }
+//                    launchVLC.setDataAndType(Uri.parse(gallaryList.get(position).getPath()),"video/*");
+//                    context.startActivity(launchVLC);
+//                    Intent intent = new Intent(Intent.ACTION_MAIN);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    PackageManager managerclock =;
+//                    intent = managerclock.getLaunchIntentForPackage("com.vlc");
+//                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+//                    context.startActivity(intent);
+                }
+            });
+        }
+        else{
+            holder.img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, FullScreenActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("fullGalary" , gallaryList);
+                    intent.putExtra("position",position);
+                    context.startActivity(intent);
+                }
+            });
+        }
+
 
     }
 

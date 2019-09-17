@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.VideoActivity"></activity>
+        <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.FullScreenActivity" />
         <activity android:name=".Activities.ImageActivity">
             <intent-filter>
